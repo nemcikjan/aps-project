@@ -1,0 +1,38 @@
+---
+- name: build kernel from source
+  hosts: all
+  become_user: root
+  become: yes
+
+  vars:
+    linux_kernel_url: http://kernel.org/pub/linux/kernel/v4.x/linux-4.19.80.tar.xz
+    kernel_name: linux-4.19.80
+
+  tasks:
+    - name: get kernel tar
+      get_url: url={{ linux_kernel_url }} dest=~
+
+    - name: extract kernel files
+      command: unxz ~/linux-4.19.80.tar.xz
+
+    - name: tar kernel files
+      command: tar xf ~/linux-4.19.80.tar
+
+    - name: copy config
+      template:
+        src: ./.config
+        dest: ~/linux-4.19.80
+
+    - name: install kernel build deps
+      apt:
+        name:
+          - build-essential
+          - libncurses-dev
+          - bison
+          - flex
+          - libssl-dev
+          - libelf-dev
+          - bc
+
+    - name: build kernel
+      command: make --directory ~/linux-4.19.80

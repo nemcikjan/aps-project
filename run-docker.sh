@@ -1,0 +1,1 @@
+docker run --cpus=1 -m 2048m -it aps:latest

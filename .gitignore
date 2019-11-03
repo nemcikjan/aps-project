@@ -1,0 +1,3 @@
+linux-4.19.80
+.vagrant/**
+*.tar

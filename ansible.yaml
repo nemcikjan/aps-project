@@ -1,0 +1,73 @@
+---
+- name: provision VM
+  hosts: 127.0.0.1
+  connection: local
+  become_user: root
+  become: yes
+
+  #  vars:
+  #     oracle_db_port_value : 1521
+  tasks:
+    - name: Enable deb sources
+      command: sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+
+    # - name: install virtualization packages
+    #   apt:
+    #     name:
+    #       [
+    #         "libvirt-bin",
+    #         "qemu-kvm",
+    #         "virtinst",
+    #         "unar",
+    #         "bridge-utils",
+    #         "vlan",
+    #         "irqbalance",
+    #         "kpartx",
+    #       ]
+    #     update_cache: yes
+
+    # - name: configure qemu-kvm
+    #   template:
+    #     src: qemu-kvm.defaults
+    #     dest: /etc/default/qemu-kvm
+
+    - name: configure build dep for vagrant
+      apt:
+        state: build-dep
+        name:
+          - vagrant
+          - ruby-libvirt
+
+    - name: install vagrant deps
+      apt:
+        state: present
+        name:
+          - libxslt-dev
+          - libxml2-dev
+          - libvirt-dev
+          - zlib1g-dev
+          - ruby-dev
+
+    # - name: Install vagrant deb package
+    #   apt:
+    #     deb: https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.deb
+
+    - name: install libvirt plugin
+      command: vagrant plugin install vagrant-libvirt
+
+    # - name: insert vagrant default provder env variable
+    #   lineinfile:
+    #     path: /root/.bashrc
+    #     line: export VAGRANT_DEAULT_PROVIDER=libvirt
+
+    # - name: create dir for vagrantfile
+    #   file:
+    #     path: /root/vagrant
+    #     state: directory
+
+    # - name: Provide vagrantfile
+    #   template:
+    #     src: "{{hostname}}/Vagrantfile"
+    #     dest: /root/vagrant/Vagrantfile
+    - name: vagrant up
+      command: vagrant up
