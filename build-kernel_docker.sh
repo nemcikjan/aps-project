@@ -9,7 +9,8 @@ fi
 
 # echo "Executed with ${core_num} CPUs" >> stats_file
 lscpu | grep -E "Model name|Architecture" >> stats_file
-echo "User: $(echo $USER)" >> stats_file
+echo "Username: $(echo $USER)" >> stats_file
+echo "Hostname: $(hostname)" >> stats_file
 
 # /bin/bash
 # process results

@@ -64,7 +64,9 @@ libssl-dev \
 libelf-dev \
 bc \
 time \
-curl
+curl \
+jq \
+wget
 
 # getting kernel sources
 wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.80.tar.xz
@@ -83,7 +85,8 @@ cp -v ./.config linux-4.19.80
 
 echo "Number of cores: ${core_num}" >> stats_file
 lscpu | grep -E "Model name|Architecture" >> stats_file
-echo "User: $(echo $USER)" >> stats_file
+echo "Username: $(echo $USER)" >> stats_file
+echo "Hostname: $(hostname)" >> stats_file
 # time make --directory linux-4.19.80 -j 3
 
 # process results

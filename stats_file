@@ -1,0 +1,7 @@
+Executed command: make --directory linux-4.19.80 -j 3
+Total time: 23621.83s
+Memory: 946536KB 
+CPU usage: 105%
+Executed with: 3 CPUs
+Architecture:        i686
+Model name:          QEMU Virtual CPU version 2.5+
