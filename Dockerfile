@@ -11,14 +11,19 @@ RUN apt-get update && apt-get install -y \
     libelf-dev \
     bc \
     wget \
-    time
+    time \
+    curl
 
 RUN wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.80.tar.xz
 
-RUN unxz -v linux-4.19.80.tar.xz
+RUN unxz linux-4.19.80.tar.xz
 
-RUN tar xvf linux-4.19.80.tar
+RUN tar xf linux-4.19.80.tar
 
 COPY ./.config linux-4.19.80/
 
-ENTRYPOINT [ "/bin/bash", "/usr/bin/time -o time_file_docker make --directory ./linux-4.19.80" ]
+COPY build_kernel_docker.sh .
+
+ENTRYPOINT [ "build_kernel_docker.sh"]
+
+CMD ["/bin/exit"]
