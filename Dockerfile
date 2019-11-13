@@ -22,8 +22,8 @@ RUN tar xf linux-4.19.80.tar
 
 COPY ./.config linux-4.19.80/
 
-COPY build_kernel_docker.sh .
+COPY build-kernel_docker.sh .
 
-ENTRYPOINT [ "build_kernel_docker.sh"]
+ENTRYPOINT [ "./build-kernel_docker.sh"]
 
 CMD ["/bin/exit"]

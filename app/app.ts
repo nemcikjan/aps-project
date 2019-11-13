@@ -22,6 +22,9 @@ function tryParseInt(toParse) {
   const app = express();
   app.post("/result", upload.any(), (req, res) => {
     const file = (req.files[0].buffer as Buffer).toString();
+    const matched = file.match("docker");
+    const isDocker = matched && matched.length;
+    const dockerHost = isDocker && file.match(/(?<=Hostname:\s).+$/gm)[0];
     let result = JSON.parse(
       JSON.stringify(
         _.fromPairs(
@@ -48,19 +51,36 @@ function tryParseInt(toParse) {
 		cpuName,
 		memUsage,
 		cpuUsage,
-		arch) VALUES (${result.time}, ${result.numOfCores}, '${result.cpuName}', ${result.memUsage}, ${result.cpuUsage}, '${result.arch}');`;
+		arch,
+		hostname,
+		userName) VALUES (${result.time}, ${result.numOfCores}, '${result.cpuName}', ${
+      result.memUsage
+    }, ${result.cpuUsage}, '${result.arch}', '${
+      isDocker ? dockerHost : result.hostname
+    }', '${result.userName}');`;
     console.log(q);
     client
       .query(q)
-      .then(qres => {
-        res.status(200).send(`${qres.rows}\n`);
+      .then(() => {
+        res.status(201).send("Successfully uploaded!\n");
       })
       .catch(e => {
         res.status(500).send(e);
       });
   });
-  app.get("/result", (req, res) => {
-    const q = `select * from result;`;
+  app.get("/result/:user/:timestamp", (req, res) => {
+    const { user, timestamp } = req.params;
+    let q = "";
+    if (user === "all") {
+      q = `select * from result`;
+    } else {
+      q = `select * from result where username = '${user}'`;
+    }
+    if (timestamp == "last") {
+      q += " order by timestamp desc limit 1;";
+    } else {
+      q += " order by timestamp desc;";
+    }
     console.log(q);
     client
       .query(q)

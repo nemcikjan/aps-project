@@ -55,3 +55,18 @@ sw virtual
 - 3 core
 - 2048mb
 - 345m50.601s
+
+```json
+{
+  "id": 25,
+  "time": 797.13,
+  "numofcores": 4,
+  "cpuname": "Intel(R) Core(TM) i5-5300U CPU @ 2.30GHz",
+  "memusage": 991284,
+  "cpuusage": 76,
+  "arch": "x86_64",
+  "timestamp": "2019-11-13T22:32:04.891Z",
+  "hostname": "04bf9c041262",
+  "username": "docker"
+}
+```

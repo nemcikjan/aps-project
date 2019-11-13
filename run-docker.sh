@@ -1,30 +1,37 @@
 #!/bin/bash
 
 core_num=$(nproc)
-memory=$(cat /proc/meminfo | head -1 | grep -P '\d+(?= kB)')
+memory=$(cat /proc/meminfo | head -1 | grep -oP '\d+(?= kB)')
+results="auto"
 
-check_docker()
-{
-    docker -v
-    if [$(echo $?) != "0"]; then
-        echo -e "$(echo $'\e[31;1m')Docker is not installed on your machine!\nIn order beeing able to run this script, please refer to this website https://docs.docker.com/v17.09/engine/installation/ for installation information."
-    fi
-    tput sgr0
-    exit 1
+calc()
+{ 
+    awk "BEGIN { print "$*" }"; 
 }
+# check_docker()
+# {
+#     docker -v
+#     if [$(cat err) != "0"]; then
+#         echo -e "$(echo $'\e[31;1m')Docker is not installed on your machine!\nIn order beeing able to run this script, please refer to this website https://docs.docker.com/v17.09/engine/installation/ for installation information."
+#     fi
+#     rm err
+#     tput sgr0
+# }
 
 usage()
 {
-    echo -e "Help for build kernel script\nOptions:"
+    echo -e "Help for docker build kernel script\nOptions:"
     echo -e "\t-c, --cores NUM_OF_CORES"
     echo -e "\t\tNumber of cores for building kernel"
     echo -e "\t-m, --memory MEM_SIZE"
     echo -e "\t\tMemory size used for building kernel"
+    echo -e "\t-r, --results [auto|load]"
+    echo -e "\t\tTells, if user wants to get results automatically after kernel build or manually (default auto)"
     echo -e "\t-h, --help"
     echo -e "\t\tShows this help"
 }
 
-check_docker
+# check_docker
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -33,6 +40,9 @@ while [ "$1" != "" ]; do
                                 ;;
         -m | --memory )         shift
                                 memory=$1
+                                ;;
+        -r | --results )        shift
+                                results=$1
                                 ;;
         -h | --help )           usage
                                 exit
@@ -51,18 +61,33 @@ else
     echo "$(echo $'\e[32;1m')Using $core_num cores!"
 fi
 
-if [ "$memory" -gt "$(cat /proc/meminfo | head -1 | grep -P '\d+(?= kB)')" ]; then
+if [ "$memory" -gt "$(cat /proc/meminfo | head -1 | grep -oP '\d+(?= kB)')" ]; then
     echo "$(echo $'\e[33;1m')You provided more memory than available on your machine, maximum available amount of memory will be used!"
 else 
     echo "$(echo $'\e[32;1m')Using $memory size!"
 fi
 
-container_pid=$(docker run --cpus=$nproc -m ${memory}m -it aps:latest $nproc)
+if [ "$results" != "auto" ] && [ "$results" != "load" ]; then
+    echo "$(echo $'\e[33;1m')You provided unsupperted value for getting results. Value auto will be used!"
+    results="auto"
+fi
 
-docker cp $container_pid:/stats_file stats_file_docker
+tput sgr0
+
+docker run -it --cpus=$(echo $core_num) -m $(echo $memory)m aps:latest $core_num
+
+container_pid=$(docker ps -a | head -2 | tail -1 | awk '{print $1}')
+
+# docker cp $container_pid:/stats_file stats_file_docker
 
 docker container stop $container_pid
 
 docker container rm $container_pid
 
 # process results
+
+if [ "$results" == "auto" ]; then
+    ./get-result.sh -u docker -t last
+else
+    echo "If you want to get results of recently executed kernel build in docker container run ./get-result.sh -u docker -t last or run ./get-result.sh for other help"
+fi
