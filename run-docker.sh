@@ -78,10 +78,12 @@ docker run -it --cpus=$(echo $core_num) -m $(echo $memory)m jany15/aps:latest $c
 
 container_pid=$(docker ps -a | head -2 | tail -1 | awk '{print $1}')
 
-docker cp $container_pid:/stats_file stats_file_docker
+# docker cp $container_pid:/stats_file stats_file_docker
 
+echo "Stopping container $container_pid"
 docker container stop $container_pid
 
+echo "Removing container $container_pid"
 docker container rm $container_pid
 
 # process results

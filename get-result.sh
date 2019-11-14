@@ -3,6 +3,7 @@ format="json"
 filter=$(echo $USER)
 t="last"
 host=$(hostname)
+output="0"
 
 usage()
 {
@@ -17,6 +18,10 @@ usage()
     echo -e "\t\tGets either last or all results for given user or in general (default last). If -a or --all is entered, -t|--timestamp will be automatically last"
     echo -e "\t--host [HOST|all]"
     echo -e "\t\tGets results for given host or for all host (default is current host provided by cmd hostname). If -a or --all is entered, --timestamp will be automatically all"
+    echo -e "\t-i, --install"
+    echo -e "\t\tInstalls necessary dependencies to process results"
+    echo -e "\t--file"
+    echo -e "\t\tIf this option is provided, output will be redirect to result.json file. If used with format table option, will be ignored"
     echo -e "\t-h, --help"
     echo -e "\t\tShows this help"
 }
@@ -26,6 +31,13 @@ us()
 if [ "$filter" != "all" ]; then
     filter=$1
 fi
+}
+
+install()
+{
+    apt-get install -y \
+    curl \
+    jq
 }
 while [ "$1" != "" ]; do
     case $1 in
@@ -45,6 +57,11 @@ while [ "$1" != "" ]; do
                                 ;;
         --host )                shift
                                 host=$1
+                                ;;
+        -i | --install )        install
+                                exit
+                                ;;
+        --file )                output="1"
                                 ;;                    
         * )                     echo "$(echo $'\e[33;1m')Unrecognized option!"
                                 tput sgr0
@@ -68,7 +85,10 @@ fi
 curl="curl -sX GET http://167.172.174.71:3000/result/$(echo $filter)/$(echo $t)/$(echo $host)"
 echo "Getting results..."
 if [ "$format" == "json" ]; then
-    $curl | jq .
+    if ["$output" == "1"]; then
+        $curl | jq . > result.json
+    else
+        $curl | jq .
 else
     echo -e "ID\t|\tExecution time\t|\tHost\t|\tUser\t|\tCPU model\t|\tMemory usage in KB\t|\tCPU usage in %\t|\tVM Architecture\t|\tTimestamp\t" 
     $curl | jq -r '.[] | [ (.id|tostring), (.time|tostring), .hostname, .username, .cpuname, (.memusage|tostring), (.cpuusage|tostring), .arch, .timestamp ] | join("\t|\t") '
