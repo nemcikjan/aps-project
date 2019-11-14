@@ -35,6 +35,12 @@ Z týchto typov som ale vylúčil paravirtualizáciu, nakoľko by bolo potrebné
 
 ## 2. Návrh
 
+Scripty som sa snažil navrhnút tak, aby boli čo najviac flexibilné a zároveň čo najjednoduchšie. Z tohto dôvodu som sa rozhodol použiť _Shell_, nakoľko je použiteľný cross viaceré linux distribúcie. Cieľom bolo taktiež nutnosť inštálacie ďalších nadbytočných balíčkov a programov, preto som defaultne použil [KVM](https://www.linux-kvm.org/page/Main_Page) na provisioning virtuálnych strojov, ktorý je natívne súčasťou kernelu.
+
+### Získavanie výsledkov
+
+Nakoľko scripty budú bežať v rôznych prostrediach, čo znamená, že budú spúšťané priamo na konkrétnych virtuálnych strojoch, poprípade ako docker container-y, tak som vytvoril jednoduchú aplikáciu na verejne prístupnom serveri, kde sú posielané výsledky zo všetkých vykonaných buildov kernelu. Viac info v sekcii [pouívateľskej príručky](#result).
+
 <a name="implementacia"></a>
 
 ## 3. Implementácia
