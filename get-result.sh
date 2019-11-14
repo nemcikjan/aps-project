@@ -85,7 +85,7 @@ fi
 curl="curl -sX GET http://167.172.174.71:3000/result/$(echo $filter)/$(echo $t)/$(echo $host)"
 echo "Getting results..."
 if [ "$format" == "json" ]; then
-    if ["$output" == "1"]; then
+    if [ "$output" == "1" ]; then
         $curl | jq . > result.json
     else
         $curl | jq .
