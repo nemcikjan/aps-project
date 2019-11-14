@@ -1,6 +1,7 @@
 cpus=2
 memory=2048
 disk_size=12
+name="aps-vm"
 
 usage()
 {
@@ -11,6 +12,8 @@ usage()
     echo -e "\t\tAmount of memory size in MB (default 2048)"
     echo -e "\t--size DISK_SIZE"
     echo -e "\t\tDisk size in GB (default 12)"
+    echo -e "\t--name NAME"
+    echo -e "\t\tVM name (default aps-vm)"
     echo -e "\t-h, --help"
     echo -e "\t\tShows this help"
 }
@@ -28,7 +31,10 @@ while [ "$1" != "" ]; do
                                 ;;
         --size )                shift
                                 disk_size=$1
-                                ;;                       
+                                ;;
+        --name )                shift
+                                name=$1
+                                ;;                         
         * )                     echo "$(echo $'\e[33;1m')Unrecognized option!"
                                 tput sgr0
                                 usage
@@ -46,7 +52,7 @@ fi
 wget https://cdimage.debian.org/debian-cd/current/i386/iso-cd/debian-10.1.0-i386-netinst.iso
 
 virt-install \
-      --name aps-vm \
+      --name $name \
       --ram $memory \
       --vcpus $cpus \
       --disk size=$disk_size \

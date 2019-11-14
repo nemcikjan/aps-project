@@ -4,10 +4,10 @@ core_num=$(nproc)
 memory=$(cat /proc/meminfo | head -1 | grep -oP '\d+(?= kB)')
 results="auto"
 
-calc()
-{ 
-    awk "BEGIN { print "$*" }"; 
-}
+# calc()
+# { 
+#     awk "BEGIN { print "$*" }"; 
+# }
 # check_docker()
 # {
 #     docker -v
@@ -74,11 +74,11 @@ fi
 
 tput sgr0
 
-docker run -it --cpus=$(echo $core_num) -m $(echo $memory)m aps:latest $core_num
+docker run -it --cpus=$(echo $core_num) -m $(echo $memory)m jany15/aps:latest $core_num
 
 container_pid=$(docker ps -a | head -2 | tail -1 | awk '{print $1}')
 
-# docker cp $container_pid:/stats_file stats_file_docker
+docker cp $container_pid:/stats_file stats_file_docker
 
 docker container stop $container_pid
 

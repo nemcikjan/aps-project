@@ -58,10 +58,11 @@ if [ "$filter" == "all" ]; then
     t="all"
 fi
 
-url="curl -sX GET http://167.172.174.71:3000/result/$(echo $filter)/$(echo $t)"
+curl="curl -sX GET http://167.172.174.71:3000/result/$(echo $filter)/$(echo $t)"
+echo "Getting results..."
 if [ "$format" == "json" ]; then
-    $url | jq .
+    $curl | jq .
 else
     echo -e "ID\t|\tExecution time\t|\tHost\t|\tUser\t|\tCPU model\t|\tMemory usage in KB\t|\tCPU usage in %\t|\tVM Architecture\t|\tTimestamp\t" 
-    $url | jq -r '.[] | [ (.id|tostring), (.time|tostring), .hostname, .username, .cpuname, (.memusage|tostring), (.cpuusage|tostring), .arch, .timestamp ] | join("\t|\t") '
+    $curl | jq -r '.[] | [ (.id|tostring), (.time|tostring), .hostname, .username, .cpuname, (.memusage|tostring), (.cpuusage|tostring), .arch, .timestamp ] | join("\t|\t") '
 fi

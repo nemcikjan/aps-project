@@ -72,3 +72,5 @@ echo "Hostname: $(hostname)" >> stats_file
 
 # process results
 curl -D - -F 'data=@./stats_file' http://167.172.174.71:3000/result
+
+rm -r linux-4.19.80*
