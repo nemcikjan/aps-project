@@ -47,7 +47,38 @@ Z týchto typov som ale vylúčil paravirtualizáciu, nakoľko by bolo potrebné
 
 ## 5. Používateľská príručka
 
+Tento projekt pozostáva z nasledujúcih scriptov:
+
+- [build-kernel.sh](#kernel)
+- [build-docker.sh](#docker)
+- [run-docker.sh](#docker_run)
+- [get-result.sh](#result)
+- [virt-install.sh](#install)
+
+Každý z vyššie vymenovaných sciptov, okrem _build-docker_, obsahuje svoj vlastný _help_, a preto budú v nasledujúcich podsekciách iba zhrnuté ich úlohy, _help_ je možné vykonať nasledovne: _<script_name> -h|--help_.
+
+<a name="kernel"></a>
+
+### **<p>build-kernel.sh</p>**
+
+<a name="docker"></a>
+
+### **<p>build-docker.sh</p>**
+
+<a name="docker_run"></a>
+
+### **<p>run-docker.sh</p>**
+
+<a name="result"></a>
+
+### **<p>get-result.sh</p>**
+
+<a name="install"></a>
+
+### **<p>virt-install.sh</p>**
+
 <div style="page-break-after: always;"></div>
 
 https://github.com/JanNemcik/aps-project
+
 https://hub.docker.com/r/jany15/aps
