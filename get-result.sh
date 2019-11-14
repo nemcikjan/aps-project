@@ -89,6 +89,7 @@ if [ "$format" == "json" ]; then
         $curl | jq . > result.json
     else
         $curl | jq .
+    fi
 else
     echo -e "ID\t|\tExecution time\t|\tHost\t|\tUser\t|\tCPU model\t|\tMemory usage in KB\t|\tCPU usage in %\t|\tVM Architecture\t|\tTimestamp\t" 
     $curl | jq -r '.[] | [ (.id|tostring), (.time|tostring), .hostname, .username, .cpuname, (.memusage|tostring), (.cpuusage|tostring), .arch, .timestamp ] | join("\t|\t") '
