@@ -6,8 +6,26 @@ usage()
     echo -e "Help for build kernel script\nOptions:"
     echo -e "\t-c, --cores NUM_OF_CORES"
     echo -e "\t\tNumber of cores for building kernel"
+    echo -e "\t--purge"
+    echo -e "\t\tPurges all dependencies installed by this script in order to build kernel and process results"
     echo -e "\t-h, --help"
     echo -e "\t\tShows this help"
+}
+
+purge()
+{
+    apt-get purge -y \
+    build-essential \
+    libncurses-dev \
+    bison \
+    flex \
+    libssl-dev \
+    libelf-dev \
+    bc \
+    time \
+    curl \
+    jq \
+    wget
 }
 
 while [ "$1" != "" ]; do
@@ -18,6 +36,8 @@ while [ "$1" != "" ]; do
         -h | --help )           usage
                                 exit
                                 ;;
+        --purge )               purge
+                                exit
         * )                     echo "$(echo $'\e[33;1m')Unrecognized option!"
                                 tput sgr0
                                 usage
@@ -74,3 +94,5 @@ echo "Hostname: $(hostname)" >> stats_file
 curl -D - -F 'data=@./stats_file' http://167.172.174.71:3000/result
 
 rm -r linux-4.19.80*
+
+echo "If you want to purge all dependencies installed by this script run ./build-kernel.sh --purge"

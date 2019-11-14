@@ -2,6 +2,7 @@
 format="json"
 filter=$(echo $USER)
 t="last"
+host=$(hostname)
 
 usage()
 {
@@ -14,6 +15,8 @@ usage()
     echo -e "\t\tGets results for specific user. If -a|--all is entered, -u|--user will be ignored"
     echo -e "\t-t, --timestamp [last|all]"
     echo -e "\t\tGets either last or all results for given user or in general (default last). If -a or --all is entered, -t|--timestamp will be automatically last"
+    echo -e "\t--host [HOST|all]"
+    echo -e "\t\tGets results for given host or for all host (default is current host provided by cmd hostname). If -a or --all is entered, --timestamp will be automatically all"
     echo -e "\t-h, --help"
     echo -e "\t\tShows this help"
 }
@@ -39,7 +42,10 @@ while [ "$1" != "" ]; do
                                 ;;
         -t | --timestamp )      shift
                                 t=$1
-                                ;;                  
+                                ;;
+        --host )                shift
+                                host=$1
+                                ;;                    
         * )                     echo "$(echo $'\e[33;1m')Unrecognized option!"
                                 tput sgr0
                                 usage
@@ -56,9 +62,10 @@ fi
 
 if [ "$filter" == "all" ]; then
     t="all"
+    host="all"
 fi
 
-curl="curl -sX GET http://167.172.174.71:3000/result/$(echo $filter)/$(echo $t)"
+curl="curl -sX GET http://167.172.174.71:3000/result/$(echo $filter)/$(echo $t)/$(echo $host)"
 echo "Getting results..."
 if [ "$format" == "json" ]; then
     $curl | jq .

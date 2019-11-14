@@ -68,15 +68,19 @@ function tryParseInt(toParse) {
         res.status(500).send(e);
       });
   });
-  app.get("/result/:user/:timestamp", (req, res) => {
-    const { user, timestamp } = req.params;
+  app.get("/result/:user/:timestamp/:host", (req, res) => {
+    const { user, timestamp, host } = req.params;
     let q = "";
     if (user === "all") {
       q = `select * from result`;
     } else {
-      q = `select * from result where username = '${user}'`;
+      if (host === "all") {
+        q = `select * from result where username = '${user}'`;
+      } else {
+        q = `select * from result where username = '${user}' and hostname = '${host}'`;
+      }
     }
-    if (timestamp == "last") {
+    if (timestamp === "last") {
       q += " order by timestamp desc limit 1;";
     } else {
       q += " order by timestamp desc;";

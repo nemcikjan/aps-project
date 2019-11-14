@@ -87,7 +87,7 @@ docker container rm $container_pid
 # process results
 
 if [ "$results" == "auto" ]; then
-    ./get-result.sh -u docker -t last
+    ./get-result.sh -u docker -t last --host $container_pid
 else
-    echo "If you want to get results of recently executed kernel build in docker container run ./get-result.sh -u docker -t last or run ./get-result.sh for other help"
+    echo "If you want to get results of recently executed kernel build in docker container run ./get-result.sh -u docker -t last --host $(echo $container_pid) or run ./get-result.sh for other help"
 fi

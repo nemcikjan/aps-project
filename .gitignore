@@ -2,3 +2,5 @@ linux-4.19.80
 .vagrant/**
 *.tar
 .vscode/
+stats_*
+./stats_file
