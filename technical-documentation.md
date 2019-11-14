@@ -62,7 +62,7 @@ V prípade, že si želáte spustiť build kernelu v prostredí softvérovej vir
 
 ### 3.2 Docker containers
 
-V prípade docker kontajnerizácie, som vytvoril image, ktorý už obsahuje predpripravené kernel module spoločne s potrebnou konfiguráciou. Pri spustení kontajneru je build kernelu automaticky spustený. Predpis Dockerfile-u je uvedený nižšie. Základom je taktiež image debianu obohatený o nevyhnutné balíky pre build kernelu.
+V prípade docker kontajnerizácie, som vytvoril image, ktorý už obsahuje predpripravené kernel module spoločne s potrebnou konfiguráciou. Pri spustení kontajneru je build kernelu automaticky spustený. Predpis Dockerfile-u je uvedený nižšie. Základom je taktiež image debianu obohatený o nevyhnutné balíky pre build kernelu. Vybuildovaný docker image sa nachádza na [Docker Hub](https://hub.docker.com/r/jany15/aps)-e.
 
 ```yaml
 FROM debian
@@ -99,6 +99,8 @@ CMD ["/bin/exit"]
 <a name="testing"></a>
 
 ## 4. Testovanie
+
+Build kernelu som testoval prevažne ja, kde som testoval v prostredí hardvérovej aj softvérovej virtualizácie, taktiež na mojom osobnom počítači a samozrejme aj v prostredí dockeru. skúšal som rôzne varianty počtu jadier pred build a aj alokovanej pamäte pre virtuálny stroj, resp. pre docker container. Moje riešenie otestoval Matúš Vlček v prostredí dockeru a na hardvérovom virtuálnom stroji, ktorý naprovisionoval pomocou VirtualBox-u a ako OS použil Debian.
 
 <a name="manual"></a>
 
@@ -158,6 +160,4 @@ Tento script slúži na získanie výsledkov buildov kernelu v rámci projektu. 
 
 Tento script zabezpečí inštaláciu KVM virtuálneho stroja s Debian 10 OS. Všetky možnosti použitia sú popísané v _help_-e scriptu.
 
-<div style="page-break-after: always;"></div>
-
-https://hub.docker.com/r/jany15/aps
+<!-- <div style="page-break-after: always;"></div> -->
