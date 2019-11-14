@@ -120,7 +120,7 @@ Každý z vyššie vymenovaných sciptov, okrem _build-docker_, obsahuje svoj vl
 
 ### **<p>build-kernel.sh</p>**
 
-Tento script nainštaluje potrebne dependencies pre build kernelu a pre spracovanie výsledkov. Súčasťou scriptu je taktiež stiahnutie a rozbalenie samotného kernelu. Po týchto krokoch sa spustí samotný build pomocou príkazu make. Po úspešnom vykonaní buildu sa odstránia stiahnuté súbory a výsledky sa odošlú na server. Používateľ má taktiež možnosť po vykonaní buildu odstrániť všetky doinštalované dependencies (viac v _help_-e scriptu). Script taktiež umožňuje definovať počet jadier, na ktorých build prebiehať (viac v _help_-e scriptu). **Script je potrebné spúštať ako sudo user, poprípade s userom, ktorý ma práva inštalovať dependencies ako root!**
+Tento script nainštaluje potrebne dependencies pre build kernelu a pre spracovanie výsledkov. Súčasťou scriptu je taktiež stiahnutie a rozbalenie samotného kernelu. Po týchto krokoch sa spustí samotný build pomocou príkazu make. Po úspešnom vykonaní buildu sa odstránia stiahnuté súbory a výsledky sa odošlú na server. Používateľ má taktiež možnosť po vykonaní buildu odstrániť všetky doinštalované dependencies (viac v _help_-e scriptu). Script taktiež umožňuje definovať počet jadier, na ktorých build prebiehať (viac v _help_-e scriptu). **Script je potrebné spúštať ako sudo user, poprípade s userom, ktorý ma práva inštalovať dependencies ako root!** Predpokladom pre úspešné odoslanie výsledkov je pripojenie k internetu.
 
 Inštalované dependencies:
 
