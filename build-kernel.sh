@@ -38,6 +38,7 @@ while [ "$1" != "" ]; do
                                 ;;
         --purge )               purge
                                 exit
+                                ;;
         * )                     echo "$(echo $'\e[33;1m')Unrecognized option!"
                                 tput sgr0
                                 usage
