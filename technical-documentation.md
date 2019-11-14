@@ -154,6 +154,23 @@ Tento script zabezpečuje spestenie docker containera podľa predpripravenej def
 
 Tento script slúži na získanie výsledkov buildov kernelu v rámci projektu. Ponúka rôzne možnosti filtrovania a formátovania výstupu. Všetky prípady použitia sú popísané v _help_-e scriptu. **Dependencie potrebné pre získanie výsledkov boli nainštalované v rámci scriptu build-kernel.sh a môžu byť donštalované vykonaním príkazu ./get-result.sh -i, ktorý musí byť spustený ako sudo príkaz.**
 
+Example result with description:
+
+```json
+{
+  "id": 25, // PK
+  "time": 797.13, // Build execution time in seconds
+  "numofcores": 4, // Number of cores used by build
+  "cpuname": "Intel(R) Core(TM) i5-5300U CPU @ 2.30GHz", // Name of CPU on which was the build executed
+  "memusage": 991284, // Memory usage of process in KB
+  "cpuusage": 76, // Usage of CPU in %
+  "arch": "x86_64", // Architecture of virtual machine
+  "timestamp": "2019-11-13T22:32:04.891Z", // Timestamp of insertion
+  "hostname": "04bf9c041262", // Name of the host, where the build was executed
+  "username": "docker" // Name of user, who executed the script
+}
+```
+
 <a name="install"></a>
 
 ### **<p>virt-install.sh</p>**
