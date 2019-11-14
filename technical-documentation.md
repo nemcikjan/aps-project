@@ -35,15 +35,66 @@ Z týchto typov som ale vylúčil paravirtualizáciu, nakoľko by bolo potrebné
 
 ## 2. Návrh
 
-Scripty som sa snažil navrhnút tak, aby boli čo najviac flexibilné a zároveň čo najjednoduchšie. Z tohto dôvodu som sa rozhodol použiť _Shell_, nakoľko je použiteľný cross viaceré linux distribúcie. Cieľom bolo taktiež nutnosť inštálacie ďalších nadbytočných balíčkov a programov, preto som defaultne použil [KVM](https://www.linux-kvm.org/page/Main_Page) na provisioning virtuálnych strojov, ktorý je natívne súčasťou kernelu.
+Scripty som sa snažil navrhnút tak, aby boli čo najviac flexibilné a zároveň čo najjednoduchšie. Z tohto dôvodu som sa rozhodol použiť _Shell_, nakoľko je použiteľný cross viaceré linux distribúcie. Cieľom bolo taktiež nutnosť inštálacie ďalších nadbytočných balíčkov a programov, preto som defaultne použil [KVM](https://www.linux-kvm.org/page/Main_Page) na provisioning virtuálnych strojov, ktorý je natívne súčasťou kernelu. Na účely kontajnerizácie použijem [Docker](https://docs.docker.com/).
 
 ### Získavanie výsledkov
 
-Nakoľko scripty budú bežať v rôznych prostrediach, čo znamená, že budú spúšťané priamo na konkrétnych virtuálnych strojoch, poprípade ako docker container-y, tak som vytvoril jednoduchú aplikáciu na verejne prístupnom serveri, kde sú posielané výsledky zo všetkých vykonaných buildov kernelu. Viac info v sekcii [pouívateľskej príručky](#result).
+Nakoľko scripty budú bežať v rôznych prostrediach, čo znamená, že budú spúšťané priamo na konkrétnych virtuálnych strojoch, poprípade ako docker container-y, tak som vytvoril jednoduchú aplikáciu na verejne prístupnom serveri, kde sú posielané výsledky zo všetkých vykonaných buildov kernelu. Viac info v sekcii [používateľskej príručky](#result).
 
 <a name="implementacia"></a>
 
 ## 3. Implementácia
+
+Implementácia prebiehala pre dva prípady:
+
+- virtuálne stroje
+- docker container-y
+
+Všetky scripty, spoločne so spoločnými, sú k dispozícii na tomto [Github](https://github.com/JanNemcik/aps-project) linku.
+
+### 3.1 Virtuálne stroje
+
+Ako som už spomenul v časti [návrhu](#navrh), na provisioning používam KVM. Ako operačný systém som si zvolil Debian 10 v 32-bit architektúre, keďže celková veľkosť je menšia ako pri Ubuntu a na účely buildenia kernelu bohato postačuje. Scripty sú ale samozrejme vykonateľné aj v Ubuntu prostredí. Script najskôr stiahne kernel vo verzii 4.19.80 pomocou príkaze _wget_, ktorý následne rozbalí pomocou _unxz_ a _tar_. Potom skopíruje príslušný config súbor do priečinku rozbalených kernel modulov. Následne spustím script vykonaním príkazu _time_ v rošírenej verzii. Následne po vykonaní buildu sa získané výsledky odošlú na server pomocou príkazu _curl_, kde sú následne spracované a uložene v databáze.
+
+#### 3.1.1 Softvérová virtualizácia
+
+V prípade, že si želáte spustiť build kernelu v prostredí softvérovej virtualizácie, je potrebné vypnúť podporu virtualizácie priamo v BIOS-e a nainštalovať virtuálny stroj, nakoľko jedna inštancie nie je schopná byť hardvérovým a zároveň softvérovým virtuálnym strojom.
+
+### 3.2 Docker containers
+
+V prípade docker kontajnerizácie, som vytvoril image, ktorý už obsahuje predpripravené kernel module spoločne s potrebnou konfiguráciou. Pri spustení kontajneru je build kernelu automaticky spustený. Predpis Dockerfile-u je uvedený nižšie. Základom je taktiež image debianu obohatený o nevyhnutné balíky pre build kernelu.
+
+```yaml
+FROM debian
+
+SHELL [ "/bin/bash", "-c" ]
+
+RUN apt-get update && apt-get install -y \
+build-essential \
+libncurses-dev \
+bison \
+flex \
+libssl-dev \
+libelf-dev \
+bc \
+wget \
+time \
+curl
+
+RUN wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.80.tar.xz
+
+RUN unxz linux-4.19.80.tar.xz
+
+RUN tar xf linux-4.19.80.tar
+
+COPY ./.config linux-4.19.80/
+
+COPY build-kernel_docker.sh .
+
+ENTRYPOINT [ "./build-kernel_docker.sh"]
+
+CMD ["/bin/exit"]
+```
 
 <a name="testing"></a>
 
@@ -61,7 +112,7 @@ Tento projekt pozostáva z nasledujúcih scriptov:
 - [get-result.sh](#result)
 - [virt-install.sh](#install)
 
-Každý z vyššie vymenovaných sciptov, okrem _build-docker_, obsahuje svoj vlastný _help_, a preto budú v nasledujúcich podsekciách iba zhrnuté ich úlohy, _help_ je možné vykonať nasledovne: _<script_name> -h|--help_.
+Každý z vyššie vymenovaných sciptov, okrem _build-docker_, obsahuje svoj vlastný _help_, a preto budú v nasledujúcich podsekciách iba zhrnuté ich úlohy, _help_ je možné vykonať nasledovne: _<script_name> -h|--help_. **V prípade, že používateľ spúšťa build na virtuálnom stroji, musí zabezpečiť aby sa súbory _build-kernel.sh_ a _.config_ nachádzali v tom istom priečinku!!**
 
 <a name="kernel"></a>
 
@@ -108,7 +159,5 @@ Tento script slúži na získanie výsledkov buildov kernelu v rámci projektu. 
 Tento script zabezpečí inštaláciu KVM virtuálneho stroja s Debian 10 OS. Všetky možnosti použitia sú popísané v _help_-e scriptu.
 
 <div style="page-break-after: always;"></div>
-
-https://github.com/JanNemcik/aps-project
 
 https://hub.docker.com/r/jany15/aps
