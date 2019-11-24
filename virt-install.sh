@@ -1,7 +1,7 @@
 cpus=2
 memory=2048
 disk_size=12
-name="aps-vm"
+name="aps-vm2"
 
 usage()
 {
@@ -49,11 +49,11 @@ if [ "$disk_size" -lt "12" ]; then
     tput sgr0
 fi
 
-wget https://cdimage.debian.org/debian-cd/current/i386/iso-cd/debian-10.1.0-i386-netinst.iso
+# wget https://cdimage.debian.org/debian-cd/current/i386/iso-cd/debian-10.2.0-i386-netinst.iso
 
 virt-install \
       --name $name \
       --ram $memory \
       --vcpus $cpus \
       --disk size=$disk_size \
-      --cdrom ./debian-10.1.0-i386-netinst.iso
+      --cdrom ./debian-10.2.0-i386-netinst.iso
