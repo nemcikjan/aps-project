@@ -4,3 +4,5 @@ linux-4.19.80
 .vscode/
 stats_*
 ./stats_file
+.ipynb_checkpoints/**
+aps/**

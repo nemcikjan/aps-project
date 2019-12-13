@@ -1,1 +1,1 @@
-scp -v build-kernel.sh ./.config default@192.168.122.192:~
+scp -v ./.config build-kernel.sh default@192.168.122.192:~

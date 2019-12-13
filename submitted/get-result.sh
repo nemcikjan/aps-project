@@ -13,7 +13,7 @@ usage()
     echo -e "\t-a, --all"
     echo -e "\t\tGets all results and has priority before -t|--timestamp and -u|--user"
     echo -e "\t-u, --user USER"
-    echo -e "\t\tGets results for specific user. If -a|--all is entered, -u|--user will be ignored (default is current user stored in variable USER)"
+    echo -e "\t\tGets results for specific user. If -a|--all is entered, -u|--user will be ignored (default is current user stored in variable $USER)"
     echo -e "\t-t, --timestamp [last|all]"
     echo -e "\t\tGets either last or all results for given user or in general (default is last). If -a or --all is entered, -t|--timestamp will be automatically last"
     echo -e "\t--host [HOST|all]"

@@ -1,7 +1,9 @@
-Executed command: make --directory linux-4.19.80 -j 3
-Total time: 23621.83s
-Memory: 946536KB 
-CPU usage: 105%
-Executed with: 3 CPUs
-Architecture:        i686
-Model name:          QEMU Virtual CPU version 2.5+
+Executed command: make --directory linux-4.19.80 -j 2
+Total time: 739.87s
+Memory: 983516KB 
+CPU usage: 201%
+Executed with: 2 CPUs
+Architecture:        x86_64
+Model name:          Intel(R) Core(TM) i5-5300U CPU @ 2.30GHz
+User name: root
+Hostname: jany-Latitude-E7450

@@ -1,0 +1,137 @@
+[
+	{
+		"numofcores": 27,
+		"time": 1323.6666699999987,
+		"group": 1
+	},
+	{
+		"numofcores": 26,
+		"time": 2106.1666699999987,
+		"group": 1
+	},
+	{
+		"numofcores": 25,
+		"time": 2888.6666699999987,
+		"group": 1
+	},
+	{
+		"numofcores": 24,
+		"time": 3671.1666699999987,
+		"group": 1
+	},
+	{
+		"numofcores": 23,
+		"time": 4453.666669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 22,
+		"time": 5236.166669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 21,
+		"time": 6018.666669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 20,
+		"time": 6801.166669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 19,
+		"time": 7583.666669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 18,
+		"time": 8366.166669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 17,
+		"time": 9148.666669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 16,
+		"time": 9931.166669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 15,
+		"time": 10713.666669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 14,
+		"time": 11496.166669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 13,
+		"time": 12278.666669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 12,
+		"time": 13061.166669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 11,
+		"time": 13843.666669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 10,
+		"time": 14626.166669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 9,
+		"time": 15408.666669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 8,
+		"time": 16191.166669999999,
+		"group": 1
+	},
+	{
+		"numofcores": 7,
+		"time": 16973.66667,
+		"group": 1
+	},
+	{
+		"numofcores": 6,
+		"time": 17756.16667,
+		"group": 1
+	},
+	{
+		"numofcores": 5,
+		"time": 18538.66667,
+		"group": 1
+	},
+	{
+		"numofcores": 4,
+		"time": 19321.16667,
+		"group": 1
+	},
+	{
+		"numofcores": 3,
+		"time": 20103.66667,
+		"group": 1
+	},
+	{
+		"numofcores": 2,
+		"time": 20886.16667,
+		"group": 1
+	},
+	{
+		"numofcores": 1,
+		"time": 37898.83,
+		"group": 1
+	}
+]
